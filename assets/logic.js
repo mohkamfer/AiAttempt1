@@ -18,21 +18,31 @@ requestAnimationFrame(mainLoop);
 function mainLoop() {
   let x = parseFloat(player.style.left);
   let y = parseFloat(player.style.top);
-  if (keys[LEFT] == true && x >= 1) {
-    player.style.left = x - 3 + 'px';
+
+  if (keys[LEFT] == true && keys[RIGHT] == true) {
+    // Dead state
+  } else {
+    if (keys[LEFT] == true && x >= 1) {
+      player.style.left = x - 3 + 'px';
+    }
+
+    if (keys[RIGHT] == true && x < (window.innerWidth) - 16) {
+      player.style.left = x + 3 + 'px';
+    }
   }
 
-  if (keys[RIGHT] == true && x < (window.innerWidth) - 16) {
-    player.style.left = x + 3 + 'px';
-  }
+  if (keys[UP] == true && keys[DOWN] == true) {
+    // Dead state
+  } else {
+    if (keys[UP] == true && y >= 1) {
+      player.style.top = y - 3 + 'px';
+    }
 
-  if (keys[UP] == true && y >= 1) {
-    player.style.top = y - 3 + 'px';
+    if (keys[DOWN] == true && y < (window.innerHeight) - 16) {
+      player.style.top = y + 3 + 'px';
+    }
   }
-
-  if (keys[DOWN] == true && y < (window.innerHeight) - 16) {
-    player.style.top = y + 3 + 'px';
-  }
+  
   requestAnimationFrame(mainLoop);
 }
 
