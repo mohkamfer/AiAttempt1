@@ -1,48 +1,57 @@
 let player = document.createElement('div');
-let keys = {};
+let keyList = {};
+
 let LEFT = 37;
+let KeyA = 65;
 let UP = 38;
+let KeyW = 87;
 let RIGHT = 39;
+let KeyD = 68;
 let DOWN = 40;
+let KeyS = 83;
+let SHIFT = 16;
 
 document.addEventListener('DOMContentLoaded', function() {
   styleDocument();
-  stylePlayer();
   appendElements();
-  window.onkeyup = function(e) { keys[e.keyCode] = false; }
-  window.onkeydown = function(e) { keys[e.keyCode] = true; }
+  stylePlayer();
+  window.onkeyup = function(e) { keyList[e.keyCode] = false; }
+  window.onkeydown = function(e) { keyList[e.keyCode] = true; }
 });
 
 requestAnimationFrame(mainLoop);
 
 function mainLoop() {
-  let x = parseFloat(player.style.left);
-  let y = parseFloat(player.style.top);
+  let playerStyle = player.style;
+  let x = parseFloat(playerStyle.left);
+  let y = parseFloat(playerStyle.top);
+  let newOffset = 3;
 
-  if (keys[LEFT] == true && keys[RIGHT] == true) {
-    // Dead state
-  } else {
-    if (keys[LEFT] == true && x >= 1) {
-      player.style.left = x - 3 + 'px';
+  if (shiftPressed())
+  newOffset += 3;
+
+  if (!(leftPressed() && rightPressed())) {
+    if (leftPressed() && (x >= 1)) {
+      playerStyle.left = x - newOffset + 'px';
     }
 
-    if (keys[RIGHT] == true && x < (window.innerWidth) - 16) {
-      player.style.left = x + 3 + 'px';
+    if (rightPressed() && x < (window.innerWidth) - 16) {
+      playerStyle.left = x + newOffset + 'px';
+    }
+  }
+
+  if (!(upPressed() && downPressed())) {
+    if (upPressed() && (y >= 1)) {
+      playerStyle.top = y - newOffset + 'px';
+    }
+
+    if (downPressed() && y < (window.innerHeight) - 16) {
+      playerStyle.top = y + newOffset + 'px';
     }
   }
 
-  if (keys[UP] == true && keys[DOWN] == true) {
-    // Dead state
-  } else {
-    if (keys[UP] == true && y >= 1) {
-      player.style.top = y - 3 + 'px';
-    }
+  checkBoundaries(x, y);
 
-    if (keys[DOWN] == true && y < (window.innerHeight) - 16) {
-      player.style.top = y + 3 + 'px';
-    }
-  }
-  
   requestAnimationFrame(mainLoop);
 }
 
@@ -71,3 +80,23 @@ function styleDocument() {
   document.body.style.margin = 0;
   document.body.style.padding = 0;
 }
+
+function checkBoundaries(x, y) {
+  if (x < window.innerWidth)
+    x = 0;
+
+  if (x > window.innerWidth - 16)
+    x = window.innerWidth;
+
+  if (y < 0)
+    y = 0;
+
+  if (y > window.innerHeight - 16)
+    y = window.innerHeight;
+}
+
+function leftPressed() { return (keyList[LEFT] == true) || (keyList[KeyA] == true); }
+function upPressed() { return (keyList[UP] == true) || (keyList[KeyW] == true); }
+function rightPressed() { return (keyList[RIGHT] == true) || (keyList[KeyD] == true); }
+function downPressed() { return (keyList[DOWN] == true) || (keyList[KeyS] == true); }
+function shiftPressed() { return keyList[SHIFT] == true; }
