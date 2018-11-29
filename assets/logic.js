@@ -96,17 +96,17 @@ function styleDocument() {
 }
 
 function checkBoundaries(x, y) {
-  if (x < window.innerWidth)
-    x = 0;
+  if (x < 0)
+    player.style.left = 0;
 
-  if (x > window.innerWidth - 16)
-    x = window.innerWidth;
+  if (x >= (window.innerWidth - 15))
+    player.style.left = (window.innerWidth - 16) + 'px';
 
   if (y < 0)
-    y = 0;
+    player.style.top = 0;
 
-  if (y > window.innerHeight - 16)
-    y = window.innerHeight;
+  if (y >= (window.innerHeight - 15))
+    player.style.top = (window.innerHeight - 16) + 'px';
 }
 
 function leftPressed() { return (keyList[LEFT] == true) || (keyList[KeyA] == true); }
