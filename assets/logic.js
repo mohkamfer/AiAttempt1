@@ -1,10 +1,40 @@
-var player = document.createElement('div');
+let player = document.createElement('div');
+let keys = {};
+let LEFT = 37;
+let UP = 38;
+let RIGHT = 39;
+let DOWN = 40;
 
 document.addEventListener('DOMContentLoaded', function() {
   styleDocument();
   stylePlayer();
   appendElements();
+  window.onkeyup = function(e) { keys[e.keyCode] = false; }
+  window.onkeydown = function(e) { keys[e.keyCode] = true; }
 });
+
+requestAnimationFrame(mainLoop);
+
+function mainLoop() {
+  let x = parseFloat(player.style.left);
+  let y = parseFloat(player.style.top);
+  if (keys[LEFT] == true && x >= 1) {
+    player.style.left = x - 3 + 'px';
+  }
+
+  if (keys[RIGHT] == true && x < (window.innerWidth) - 16) {
+    player.style.left = x + 3 + 'px';
+  }
+
+  if (keys[UP] == true && y >= 1) {
+    player.style.top = y - 3 + 'px';
+  }
+
+  if (keys[DOWN] == true && y < (window.innerHeight) - 16) {
+    player.style.top = y + 3 + 'px';
+  }
+  requestAnimationFrame(mainLoop);
+}
 
 function appendElements() {
   document.body.append(player);
