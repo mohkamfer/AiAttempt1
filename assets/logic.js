@@ -1,4 +1,5 @@
 let player = document.createElement('div');
+let enemy = document.createElement('div');
 let keyList = {};
 
 let LEFT = 37;
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
   styleDocument();
   appendElements();
   stylePlayer();
+  styleEnemy();
   window.onkeyup = function(e) { keyList[e.keyCode] = false; }
   window.onkeydown = function(e) { keyList[e.keyCode] = true; }
 });
@@ -57,6 +59,7 @@ function mainLoop() {
 
 function appendElements() {
   document.body.append(player);
+  document.body.append(enemy);
 }
 
 function stylePlayer() {
@@ -68,6 +71,17 @@ function stylePlayer() {
   player.style.top = 0;
   player.style.left = 0;
   player.style.borderRadius = '16px';
+}
+
+function styleEnemy() {
+  enemy.style.height = '16px';
+  enemy.style.width = '16px';
+  enemy.style.display = 'block';
+  enemy.style.backgroundColor = 'blue';
+  enemy.style.position = 'absolute';
+  enemy.style.left = (window.innerWidth / 2) + 'px';
+  enemy.style.top = (window.innerHeight / 2) + 'px';
+  enemy.style.borderRadius = '16px';
 }
 
 function styleDocument() {
